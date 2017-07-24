@@ -1,2 +1,2 @@
-# ICPT
-Interface Common Pressure Test implemented by Golang
+# DIST
+Distributed Interface Stress Test implemented by Golang
