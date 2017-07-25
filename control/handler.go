@@ -8,9 +8,12 @@ package main
 
 import (
 	"net/http"
+	"fmt"
 )
 
 func getSlaveStat(rsp http.ResponseWriter, req *http.Request) {
-	getRequest(req, "get")
+	getData := getRequest(req, "get")
+	postData := getRequest(req, "post")
+	fmt.Println(getData, postData)
 	sendResponse(rsp, "json")
 }

@@ -10,6 +10,7 @@ import "net/http"
 import (
 	"github.com/go-ozzo/ozzo-config"
 	"github.com/go-ozzo/ozzo-log"
+	"io"
 )
 
 var conf *config.Config
@@ -30,10 +31,35 @@ func initLogger() {
 	logger.Open()
 }
 
-func getRequest(req *http.Request, rtype string) {
+func getRequest(req *http.Request, rtype string) map[string]string {
+	var params = make(map[string]string)
+	if rtype == "get" {
+		query := req.URL.Query()
+		for k, v := range query {
+			if len(v) > 0 {
+				params[k] = v[0]
+			}
+		}
+	}
+	if rtype == "post" {
 
+	}
+	return params
 }
 
 func sendResponse(rsp http.ResponseWriter, rtype string) {
+	if rtype == "json" {
+		io.WriteString(rsp, combineRetData(0, "success"))
+	} else {
+		io.WriteString(rsp, combineRetData(100, "type error"))
+	}
+}
 
+func combineRetData(code int, msg string) string {
+
+	return ""
+}
+
+func callSlaveApi(url string, params map[string]string) bool {
+	return true
 }
