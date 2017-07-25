@@ -6,7 +6,8 @@ go:
   - 1.8
 
 install:
-  - go get github.com/tanhaipeng/DIST/tree/master/control
+  - go get github.com/go-ozzo/ozzo-config
+  - go get github.com/go-ozzo/ozzo-log
 
 script:
  - go build -o dist_control *.go
