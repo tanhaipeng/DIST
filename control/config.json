@@ -1,0 +1,22 @@
+{
+  "node": "master",
+  "port": ":",
+  "slaver": [
+    "",
+    "",
+    ""
+  ],
+  "db": {
+    "host": "",
+    "port": "",
+    "user": "",
+    "pwd": ""
+  },
+  "cmd": {
+    "start": "/start",
+    "stop": "/stop",
+    "exec": "/exec",
+    "stat": "/stat",
+    "task": "/task"
+  }
+}

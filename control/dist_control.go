@@ -6,8 +6,22 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
+
+func init() {
+	initConfig()
+	initLogger()
+	initRouter()
+}
+
+func initRouter() {
+	http.HandleFunc("/stat", getSlaveStat)
+}
 
 func main() {
 	fmt.Println("DIST Control Module")
+	http.ListenAndServe(":8010", nil)
 }
