@@ -7,7 +7,20 @@
 package main
 
 import "fmt"
+import "net/http"
+
+func init()  {
+	initConfig()
+	initLogger()
+	initRouter()
+}
+
+func initRouter() {
+	http.HandleFunc("/stat", getSlaveStat)
+}
 
 func main() {
 	fmt.Println("DIST Agent Module")
+	port := conf.GetString("port","8080")
+	http.ListenAndServe(":"+port, nil)
 }

@@ -23,5 +23,6 @@ func initRouter() {
 
 func main() {
 	fmt.Println("DIST Control Module")
-	http.ListenAndServe(":8010", nil)
+	port := conf.GetString("port","8080")
+	http.ListenAndServe(":"+port, nil)
 }
