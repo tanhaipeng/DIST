@@ -16,7 +16,10 @@ func init()  {
 }
 
 func initRouter() {
-	http.HandleFunc("/stat", getSlaveStat)
+	http.HandleFunc("/stat", getSelfStat)
+	http.HandleFunc("/start", startSlave)
+	http.HandleFunc("/stop", stopSlave)
+	http.HandleFunc("/update", updateSlave)
 }
 
 func main() {
