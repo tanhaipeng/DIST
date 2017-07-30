@@ -9,7 +9,7 @@ package main
 import "fmt"
 import "net/http"
 import (
-	"DIST/libs"
+	"../libs"
 	"github.com/go-ozzo/ozzo-config"
 	"github.com/go-ozzo/ozzo-log"
 )

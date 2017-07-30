@@ -9,7 +9,7 @@ package main
 import (
 	"net/http"
 	"fmt"
-	"DIST/libs"
+	"../libs"
 )
 
 func getSelfStat(rsp http.ResponseWriter, req *http.Request) {

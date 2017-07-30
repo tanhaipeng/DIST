@@ -9,7 +9,7 @@ package main
 import (
 	"net/http"
 	"fmt"
-	"DIST/libs"
+	"../libs"
 )
 
 func getSlaveStat(rsp http.ResponseWriter, req *http.Request) {
