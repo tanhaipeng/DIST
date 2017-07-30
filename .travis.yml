@@ -1,6 +1,7 @@
 language: go
 
 go:
+  - 1.5
   - 1.6
   - 1.7
   - 1.8
@@ -10,7 +11,8 @@ install:
   - go get github.com/go-ozzo/ozzo-log
 
 script:
- - go build -o dist_control control/*.go
+  - go build -o dist_control control/*.go
+  - go build -o dist_agent agent/*.go
 
 notifications:
   email: false
