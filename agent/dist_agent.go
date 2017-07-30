@@ -14,12 +14,12 @@ import (
 	"github.com/go-ozzo/ozzo-log"
 )
 
-var conf *config.Config
-var logger *log.Logger
+var a_conf *config.Config
+var a_logger *log.Logger
 
 func init()  {
-	conf = libs.InitConfig("config.json")
-	logger = libs.InitLogger("agent.log")
+	a_conf = libs.InitConfig("config.json")
+	a_logger = libs.InitLogger("agent.log")
 	initRouter()
 }
 
@@ -32,7 +32,7 @@ func initRouter() {
 
 func main() {
 	fmt.Println("DIST Agent Module")
-	logger.Notice("DIST Agent Module")
-	port := conf.GetString("port","8080")
+	a_logger.Notice("DIST Agent Module")
+	port := a_conf.GetString("port","8080")
 	http.ListenAndServe(":"+port, nil)
 }
