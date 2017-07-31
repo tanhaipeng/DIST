@@ -9,14 +9,13 @@ package main
 import (
 	"net/http"
 	"fmt"
-	"../libs"
+	"DIST/libs"
+	"io"
 )
 
 func getSelfStat(rsp http.ResponseWriter, req *http.Request) {
 	getData := libs.GetRequest(req, "get")
-	postData := libs.GetRequest(req, "post")
-	fmt.Println(getData, postData)
-	libs.SendResponse(rsp, "json")
+	io.WriteString(rsp, getData["item"])
 }
 
 func startSlave(rsp http.ResponseWriter, req *http.Request) {

@@ -18,8 +18,8 @@ var c_conf *config.Config
 var c_logger *log.Logger
 
 func init() {
-	c_conf = libs.InitConfig("config.json")
-	c_logger = libs.InitLogger("control.log")
+	c_conf = libs.InitConfig("control/config.json")
+	c_logger = libs.InitLogger("control/control.log")
 	initRouter()
 }
 
@@ -30,6 +30,6 @@ func initRouter() {
 func main() {
 	fmt.Println("DIST Control Module")
 	c_logger.Notice("DIST Control Module")
-	port := c_conf.GetString("port","8090")
+	port := c_conf.GetString("port","8010")
 	http.ListenAndServe(":"+port, nil)
 }

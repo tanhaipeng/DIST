@@ -1,6 +1,6 @@
 {
   "node": "slave",
-  "port": ":",
+  "port": "8020",
   "db": {
     "host": "",
     "port": "",

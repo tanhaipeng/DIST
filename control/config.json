@@ -1,6 +1,6 @@
 {
   "node": "master",
-  "port": ":",
+  "port": "8010",
   "slaver": [
     "",
     "",
