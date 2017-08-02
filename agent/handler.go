@@ -14,8 +14,8 @@ import (
 )
 
 func getSelfStat(rsp http.ResponseWriter, req *http.Request) {
-	getData := libs.GetRequest(req, "get")
-	io.WriteString(rsp, getData["item"])
+	id := libs.GetRequest(req, "id")
+	io.WriteString(rsp, id)
 }
 
 func startSlave(rsp http.ResponseWriter, req *http.Request) {

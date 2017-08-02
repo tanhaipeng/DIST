@@ -30,20 +30,22 @@ func InitLogger(path string) *log.Logger {
 	return logger
 }
 
-func GetRequest(req *http.Request, rtype string) map[string]string {
-	var params = make(map[string]string)
-	if rtype == "get" {
-		query := req.URL.Query()
-		for k, v := range query {
-			if len(v) > 0 {
-				params[k] = v[0]
+func GetRequest(req *http.Request, key string) string {
+	// get
+	query := req.URL.Query()
+	for k, v := range query {
+		if len(v) > 0 {
+			if k == key {
+				return v[0]
 			}
 		}
 	}
-	if rtype == "post" {
-
+	// post
+	req.ParseForm()
+	if len(req.Form[key]) > 0 {
+		return req.Form["id"][0]
 	}
-	return params
+	return ""
 }
 
 func SendResponse(rsp http.ResponseWriter, rtype string) {
