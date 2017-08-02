@@ -43,24 +43,11 @@ func GetRequest(req *http.Request, key string) string {
 	// post
 	req.ParseForm()
 	if len(req.Form[key]) > 0 {
-		return req.Form["id"][0]
+		return req.Form[key][0]
 	}
 	return ""
 }
 
-func SendResponse(rsp http.ResponseWriter, rtype string) {
-	if rtype == "json" {
-		io.WriteString(rsp, CombineRetData(0, "success"))
-	} else {
-		io.WriteString(rsp, CombineRetData(100, "type error"))
-	}
-}
-
-func CombineRetData(code int, msg string) string {
-
-	return ""
-}
-
-func CallSlaveApi(url string, params map[string]string) bool {
-	return true
+func SendResponse(rsp http.ResponseWriter, ret string) {
+	io.WriteString(rsp, ret)
 }

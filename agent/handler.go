@@ -10,12 +10,18 @@ import (
 	"net/http"
 	"fmt"
 	"DIST/libs"
-	"io"
 )
 
 func getSelfStat(rsp http.ResponseWriter, req *http.Request) {
-	id := libs.GetRequest(req, "id")
-	io.WriteString(rsp, id)
+	item := libs.GetRequest(req, "item")
+	ret := ""
+	switch item {
+	case "slave":
+		ret = FixRetData(0, "slave", "")
+	default:
+		ret = FixRetData(100, "item lost", "")
+	}
+	libs.SendResponse(rsp, ret)
 }
 
 func startSlave(rsp http.ResponseWriter, req *http.Request) {
