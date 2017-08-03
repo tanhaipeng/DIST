@@ -17,7 +17,9 @@ func getSelfStat(rsp http.ResponseWriter, req *http.Request) {
 	ret := ""
 	switch item {
 	case "slave":
-		ret = FixRetData(0, "slave", "")
+		stat, time := GetSysInfo()
+		fmt.Println(stat)
+		fmt.Println(time)
 	default:
 		ret = FixRetData(100, "item lost", "")
 	}
