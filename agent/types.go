@@ -11,3 +11,14 @@ type RetType struct {
 	Msg  string `json:"msg"`
 	Data string `json:"data"`
 }
+
+type StatType struct {
+	Code int `json:"code"`
+	Msg  string `json:"msg"`
+	Data SysType `json:"data"`
+}
+
+type SysType struct {
+	Stat string `json:"stat"`
+	Time string `json:"time"`
+}

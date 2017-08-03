@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"fmt"
 	"DIST/libs"
+	"encoding/json"
 )
 
 func getSelfStat(rsp http.ResponseWriter, req *http.Request) {
@@ -17,11 +18,19 @@ func getSelfStat(rsp http.ResponseWriter, req *http.Request) {
 	ret := ""
 	switch item {
 	case "slave":
+		var statRet StatType
 		stat, time := GetSysInfo()
-		fmt.Println(stat)
-		fmt.Println(time)
+		statRet.Code = 0
+		statRet.Msg = ""
+		statRet.Data.Stat = stat
+		statRet.Data.Time = time
+		tmp, _ := json.Marshal(statRet)
+		ret = string(tmp)
 	default:
-		ret = FixRetData(100, "item lost", "")
+		ret = FixRetData(100, "item error", "")
+	}
+	if item == "" {
+		ret = FixRetData(101, "item lost", "")
 	}
 	libs.SendResponse(rsp, ret)
 }

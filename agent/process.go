@@ -33,7 +33,7 @@ func GetSysInfo() (string, string) {
 			if err == nil {
 				info := strings.Split(strings.Trim(string(res), "\n"), "\n")
 				if len(info) > 1 {
-					return info[0], info[1]
+					return info[0], strings.Trim(info[1], " ")
 				}
 			}
 		}
