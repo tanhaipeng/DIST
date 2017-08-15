@@ -46,9 +46,9 @@ func startSlave(rsp http.ResponseWriter, req *http.Request) {
 func updateSlave(rsp http.ResponseWriter, req *http.Request) {
 	task := libs.GetRequest(req, "task")
 	if task != "" {
-		fmt.Println(task)
-		file, err := os.Create("agent/task")
-		if err != nil {
+		file, err := os.OpenFile("agent/task", os.O_RDWR|os.O_TRUNC|os.O_CREATE, os.ModePerm)
+		if err == nil {
+			defer file.Close()
 			_, err = file.WriteString(task)
 			if err != nil {
 				libs.SendResponse(rsp, FixRetData(103, "file write err", ""))
@@ -56,7 +56,7 @@ func updateSlave(rsp http.ResponseWriter, req *http.Request) {
 				libs.SendResponse(rsp, FixRetData(0, "task update", ""))
 			}
 		} else {
-			libs.SendResponse(rsp, FixRetData(103, "file create err", ""))
+			libs.SendResponse(rsp, FixRetData(103, "file open err", ""))
 		}
 	} else {
 		libs.SendResponse(rsp, FixRetData(102, "task empty", ""))
