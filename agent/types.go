@@ -22,3 +22,21 @@ type SysType struct {
 	Stat string `json:"stat"`
 	Time string `json:"time"`
 }
+
+type TaskType struct {
+	Ip        string `json:"ip"`
+	Port      string `json:"port"`
+	Count     int `json:"count"`
+	Time      int `json:"time"`
+	Type      string `json:"type"`
+	DataType  string `json:"data"`
+	CheckType string `json:"check"`
+}
+
+type DataType struct {
+	Data string `json:"data"`
+}
+
+type ResType struct {
+	Data string `json:"data"`
+}

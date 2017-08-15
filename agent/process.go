@@ -47,6 +47,7 @@ func GetTask() error {
 	if err == nil {
 		if task != nil {
 			// parse json
+
 		}
 	}
 	return err
