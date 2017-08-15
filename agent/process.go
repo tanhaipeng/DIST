@@ -11,6 +11,7 @@ import (
 	"os/exec"
 	"strings"
 	"fmt"
+	"io/ioutil"
 )
 
 func FixRetData(code int, msg string, data string) string {
@@ -39,4 +40,18 @@ func GetSysInfo() (string, string) {
 		}
 	}
 	return "", ""
+}
+
+func GetTask() error {
+	task, err := ioutil.ReadFile("agent/task")
+	if err == nil {
+		if task != nil {
+			// parse json
+		}
+	}
+	return err
+}
+
+func HealthCheck() (host string, status bool) {
+	return "127.0.0.1", true
 }
