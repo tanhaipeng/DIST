@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"DIST/libs"
 	"encoding/json"
+	"os"
 )
 
 func getSelfStat(rsp http.ResponseWriter, req *http.Request) {
@@ -43,10 +44,23 @@ func startSlave(rsp http.ResponseWriter, req *http.Request) {
 }
 
 func updateSlave(rsp http.ResponseWriter, req *http.Request) {
-	getData := libs.GetRequest(req, "get")
-	postData := libs.GetRequest(req, "post")
-	fmt.Println(getData, postData)
-	libs.SendResponse(rsp, "json")
+	task := libs.GetRequest(req, "task")
+	if task != "" {
+		fmt.Println(task)
+		file, err := os.Create("agent/task")
+		if err != nil {
+			_, err = file.WriteString(task)
+			if err != nil {
+				libs.SendResponse(rsp, FixRetData(103, "file write err", ""))
+			} else {
+				libs.SendResponse(rsp, FixRetData(0, "task update", ""))
+			}
+		} else {
+			libs.SendResponse(rsp, FixRetData(103, "file create err", ""))
+		}
+	} else {
+		libs.SendResponse(rsp, FixRetData(102, "task empty", ""))
+	}
 }
 
 func stopSlave(rsp http.ResponseWriter, req *http.Request) {
