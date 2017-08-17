@@ -42,14 +42,15 @@ func GetSysInfo() (string, string) {
 	return "", ""
 }
 
-func GetTask() error {
+func GetTask() (TaskType, error) {
+	var rTask TaskType
 	task, err := ioutil.ReadFile("agent/task")
 	if err == nil {
 		if task != nil {
-			
+			err = json.Unmarshal([]byte(task), &rTask)
 		}
 	}
-	return err
+	return rTask, err
 }
 
 func HealthCheck() (host string, status bool) {
@@ -66,4 +67,26 @@ func QueryString(data []FieldType) string {
 		}
 	}
 	return ret
+}
+
+func execTask() {
+	task, err := GetTask()
+	if err != nil {
+		a_logger.Error(err.Error())
+		return
+	}
+	if strings.ToLower(task.Type) == "get" {
+		qStr := QueryString(task.Field)
+		qStr = task.Ip + ":" + task.Port + "?" + qStr
+		fmt.Println(qStr)
+	}
+	if strings.ToLower(task.Type) == "post" {
+		qByte, err := json.Marshal(task.Field)
+		if err != nil {
+			a_logger.Error(err.Error())
+			return
+		}
+		var qStr = string(qByte)
+		fmt.Println(qStr)
+	}
 }
