@@ -24,19 +24,15 @@ type SysType struct {
 }
 
 type TaskType struct {
-	Ip        string `json:"ip"`
-	Port      string `json:"port"`
-	Count     int `json:"count"`
-	Time      int `json:"time"`
-	Type      string `json:"type"`
-	DataType  string `json:"data"`
-	CheckType string `json:"check"`
+	Ip    string `json:"ip"`
+	Port  string `json:"port"`
+	Count int `json:"count"`
+	Time  int `json:"time"`
+	Type  string `json:"type"`
+	Field []FieldType `json:"data"`
 }
 
-type DataType struct {
-	Data string `json:"data"`
-}
-
-type ResType struct {
-	Data string `json:"data"`
+type FieldType struct {
+	name  string `json:"name"`
+	value string `json:"value"`
 }

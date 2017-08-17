@@ -46,8 +46,7 @@ func GetTask() error {
 	task, err := ioutil.ReadFile("agent/task")
 	if err == nil {
 		if task != nil {
-			// parse json
-
+			
 		}
 	}
 	return err
@@ -55,4 +54,16 @@ func GetTask() error {
 
 func HealthCheck() (host string, status bool) {
 	return "127.0.0.1", true
+}
+
+func QueryString(data []FieldType) string {
+	var ret = ""
+	for _, elem := range data {
+		if ret == "" {
+			ret = elem.name + "=" + elem.value
+		} else {
+			ret = ret + "&" + elem.name + "=" + elem.value
+		}
+	}
+	return ret
 }
