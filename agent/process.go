@@ -57,36 +57,55 @@ func HealthCheck() (host string, status bool) {
 	return "127.0.0.1", true
 }
 
-func QueryString(data []FieldType) string {
+func QueryString(data []FieldType, rtype string) string {
 	var ret = ""
-	for _, elem := range data {
-		if ret == "" {
-			ret = elem.name + "=" + elem.value
-		} else {
-			ret = ret + "&" + elem.name + "=" + elem.value
+	if rtype == "get" {
+		for _, elem := range data {
+			if ret == "" {
+				ret = elem.Name + "=" + elem.Value
+			} else {
+				ret = ret + "&" + elem.Name + "=" + elem.Value
+			}
+		}
+		return ret
+	}
+	if rtype == "post" {
+		var pdata map[string]string
+		for _, elem := range data {
+			pdata[elem.Name] = elem.Value
+		}
+		rbyte, err := json.Marshal(pdata)
+		if err == nil {
+			ret = string(rbyte)
 		}
 	}
 	return ret
 }
 
-func execTask() {
+func ExecTask() {
 	task, err := GetTask()
 	if err != nil {
 		a_logger.Error(err.Error())
 		return
 	}
 	if strings.ToLower(task.Type) == "get" {
-		qStr := QueryString(task.Field)
-		qStr = task.Ip + ":" + task.Port + "?" + qStr
+		qStr := QueryString(task.Field, "get")
+		if task.Method[0] == '/' || len(task.Method) == 0 {
+			qStr = task.Ip + ":" + task.Port + task.Method + "?" + qStr
+		} else {
+			qStr = task.Ip + ":" + task.Port + "/" + task.Method + "?" + qStr
+		}
 		fmt.Println(qStr)
 	}
 	if strings.ToLower(task.Type) == "post" {
-		qByte, err := json.Marshal(task.Field)
-		if err != nil {
-			a_logger.Error(err.Error())
-			return
+		var qApi = ""
+		if task.Method[0] == '/' || len(task.Method) == 0 {
+			qApi = task.Ip + ":" + task.Port + task.Method
+		} else {
+			qApi = task.Ip + ":" + task.Port + "/" + task.Method
 		}
-		var qStr = string(qByte)
+		qStr := QueryString(task.Field, "post")
 		fmt.Println(qStr)
+		fmt.Println(qApi)
 	}
 }
