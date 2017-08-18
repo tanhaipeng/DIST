@@ -70,7 +70,7 @@ func QueryString(data []FieldType, rtype string) string {
 		return ret
 	}
 	if rtype == "post" {
-		var pdata map[string]string
+		var pdata = make(map[string]string)
 		for _, elem := range data {
 			pdata[elem.Name] = elem.Value
 		}
