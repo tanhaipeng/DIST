@@ -12,6 +12,8 @@ import (
 	"strings"
 	"fmt"
 	"io/ioutil"
+	"time"
+	"net/http"
 )
 
 // global
@@ -101,7 +103,7 @@ func ExecTask() {
 			qApi = task.Ip + ":" + task.Port + "/" + task.Method + "?" + qApi
 		}
 		for idx := 0; idx < task.Count; idx++ {
-			go Request(qApi, pData, "get")
+			go Request(qApi, pData, "get", task.Timeout)
 		}
 	}
 	if strings.ToLower(task.Type) == "post" {
@@ -112,18 +114,42 @@ func ExecTask() {
 		}
 		pData = QueryString(task.Field, "post")
 		for idx := 0; idx < task.Count; idx++ {
-			go Request(qApi, pData, "post")
+			go Request(qApi, pData, "post", task.Timeout)
 		}
 	}
 
 }
 
-func Request(api string, data string, rtype string) {
+func Request(api string, data string, rtype string, timeout int) {
+	client := http.Client{
+		Timeout: time.Duration(time.Duration(timeout) * time.Second),
+	}
 	for {
 		if signal == false {
 			a_logger.Notice("goroutine stop")
 			break
 		}
-		fmt.Println("test running...")
+		if rtype == "get" {
+			rsp, err := client.Get(api)
+			if err == nil {
+				defer rsp.Body.Close()
+				if rsp.StatusCode == 200 {
+					a_logger.Warning("request %s return %d", api, rsp.StatusCode)
+				}
+			} else {
+				a_logger.Warning("request %s error %s", api, err.Error())
+			}
+		}
+		if rtype == "post" {
+			rsp, err := client.Post(api, "application/x-www-form-urlencoded", strings.NewReader(data))
+			if err == nil {
+				defer rsp.Body.Close()
+				if rsp.StatusCode == 200 {
+					a_logger.Warning("request %s return %d", api, rsp.StatusCode)
+				}
+			} else {
+				a_logger.Warning("request %s error %s", api, err.Error())
+			}
+		}
 	}
 }
