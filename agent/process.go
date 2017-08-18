@@ -14,6 +14,9 @@ import (
 	"io/ioutil"
 )
 
+// global
+var signal bool
+
 func FixRetData(code int, msg string, data string) string {
 	var ret RetType
 	ret.Code = code
@@ -83,29 +86,44 @@ func QueryString(data []FieldType, rtype string) string {
 }
 
 func ExecTask() {
+	var qApi = ""
+	var pData = ""
 	task, err := GetTask()
 	if err != nil {
 		a_logger.Error(err.Error())
 		return
 	}
 	if strings.ToLower(task.Type) == "get" {
-		qStr := QueryString(task.Field, "get")
+		qApi = QueryString(task.Field, "get")
 		if task.Method[0] == '/' || len(task.Method) == 0 {
-			qStr = task.Ip + ":" + task.Port + task.Method + "?" + qStr
+			qApi = task.Ip + ":" + task.Port + task.Method + "?" + qApi
 		} else {
-			qStr = task.Ip + ":" + task.Port + "/" + task.Method + "?" + qStr
+			qApi = task.Ip + ":" + task.Port + "/" + task.Method + "?" + qApi
 		}
-		fmt.Println(qStr)
+		for idx := 0; idx < task.Count; idx++ {
+			go Request(qApi, pData, "get")
+		}
 	}
 	if strings.ToLower(task.Type) == "post" {
-		var qApi = ""
-		if task.Method[0] == '/' || len(task.Method) == 0 {
+		if len(task.Method) == 0 || task.Method[0] == '/' {
 			qApi = task.Ip + ":" + task.Port + task.Method
 		} else {
 			qApi = task.Ip + ":" + task.Port + "/" + task.Method
 		}
-		qStr := QueryString(task.Field, "post")
-		fmt.Println(qStr)
-		fmt.Println(qApi)
+		pData = QueryString(task.Field, "post")
+		for idx := 0; idx < task.Count; idx++ {
+			go Request(qApi, pData, "post")
+		}
+	}
+
+}
+
+func Request(api string, data string, rtype string) {
+	for {
+		if signal == false {
+			a_logger.Notice("goroutine stop")
+			break
+		}
+		fmt.Println("test running...")
 	}
 }

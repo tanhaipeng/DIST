@@ -8,7 +8,6 @@ package main
 
 import (
 	"net/http"
-	"fmt"
 	"DIST/libs"
 	"encoding/json"
 	"os"
@@ -37,10 +36,9 @@ func getSelfStat(rsp http.ResponseWriter, req *http.Request) {
 }
 
 func startSlave(rsp http.ResponseWriter, req *http.Request) {
-	getData := libs.GetRequest(req, "get")
-	postData := libs.GetRequest(req, "post")
-	fmt.Println(getData, postData)
-	libs.SendResponse(rsp, "json")
+	signal = true
+	ExecTask()
+	libs.SendResponse(rsp, FixRetData(0, "test start", ""))
 }
 
 func updateSlave(rsp http.ResponseWriter, req *http.Request) {
@@ -64,8 +62,6 @@ func updateSlave(rsp http.ResponseWriter, req *http.Request) {
 }
 
 func stopSlave(rsp http.ResponseWriter, req *http.Request) {
-	getData := libs.GetRequest(req, "get")
-	postData := libs.GetRequest(req, "post")
-	fmt.Println(getData, postData)
-	libs.SendResponse(rsp, "json")
+	signal = false
+	libs.SendResponse(rsp, FixRetData(0, "test stop", ""))
 }

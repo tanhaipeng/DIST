@@ -12,7 +12,6 @@ import (
 	"DIST/libs"
 	"github.com/go-ozzo/ozzo-config"
 	"github.com/go-ozzo/ozzo-log"
-	"encoding/json"
 )
 
 var a_conf *config.Config
@@ -32,19 +31,6 @@ func initRouter() {
 }
 
 func main() {
-	/* ==for test
-	var task TaskType
-	task.Ip = "127.0.0.1"
-	task.Port = "8020"
-	task.Method = "/update"
-	task.Count = 10
-	task.Time = 100
-	task.Type = "get"
-	task.Field = []FieldType{{"id", "12"}, {"age", "26"}}
-	str, _ := json.Marshal(task)
-	fmt.Println(string(str))
-	*/
-	ExecTask()
 	fmt.Println("DIST Agent Module")
 	a_logger.Notice("DIST Agent Module")
 	port := a_conf.GetString("port", "8020")
