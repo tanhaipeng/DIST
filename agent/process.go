@@ -133,8 +133,10 @@ func Request(api string, data string, rtype string, timeout int) {
 			rsp, err := client.Get(api)
 			if err == nil {
 				defer rsp.Body.Close()
-				if rsp.StatusCode == 200 {
+				if rsp.StatusCode != 200 {
 					a_logger.Warning("request %s return %d", api, rsp.StatusCode)
+				} else {
+					a_logger.Notice("success")
 				}
 			} else {
 				a_logger.Warning("request %s error %s", api, err.Error())
@@ -144,8 +146,10 @@ func Request(api string, data string, rtype string, timeout int) {
 			rsp, err := client.Post(api, "application/x-www-form-urlencoded", strings.NewReader(data))
 			if err == nil {
 				defer rsp.Body.Close()
-				if rsp.StatusCode == 200 {
+				if rsp.StatusCode != 200 {
 					a_logger.Warning("request %s return %d", api, rsp.StatusCode)
+				} else {
+					a_logger.Notice("success")
 				}
 			} else {
 				a_logger.Warning("request %s error %s", api, err.Error())
