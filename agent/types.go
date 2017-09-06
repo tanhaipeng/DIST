@@ -37,3 +37,15 @@ type FieldType struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
 }
+
+type IndexType struct {
+	Code int `json:"code"`
+	Msg  string `json:"msg"`
+	Data SysInfoType `json:"data"`
+}
+
+type SysInfoType struct {
+	Qps int `json:"qps"`
+	Mem float32 `json:"mem"`
+	Cpu float32 `json:"cpu"`
+}

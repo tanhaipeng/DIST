@@ -28,6 +28,7 @@ func initRouter() {
 	http.HandleFunc("/start", startSlave)
 	http.HandleFunc("/stop", stopSlave)
 	http.HandleFunc("/update", updateSlave)
+	http.HandleFunc("/info", getSysInfo)
 }
 
 func main() {

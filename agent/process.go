@@ -18,6 +18,7 @@ import (
 
 // global
 var signal bool
+var srvqps int
 
 func FixRetData(code int, msg string, data string) string {
 	var ret RetType
@@ -58,10 +59,6 @@ func GetTask() (TaskType, error) {
 	return rTask, err
 }
 
-func HealthCheck() (host string, status bool) {
-	return "127.0.0.1", true
-}
-
 func QueryString(data []FieldType, rtype string) string {
 	var ret = ""
 	if rtype == "get" {
@@ -87,6 +84,9 @@ func QueryString(data []FieldType, rtype string) string {
 	return ret
 }
 
+/**
+execute task
+ */
 func ExecTask() {
 	var qApi = ""
 	var pData = ""

@@ -35,12 +35,19 @@ func getSelfStat(rsp http.ResponseWriter, req *http.Request) {
 	libs.SendResponse(rsp, ret)
 }
 
+/**
+start task
+ */
 func startSlave(rsp http.ResponseWriter, req *http.Request) {
 	signal = true
+	srvqps = 0
 	ExecTask()
 	libs.SendResponse(rsp, FixRetData(0, "test start", ""))
 }
 
+/**
+update task file
+ */
 func updateSlave(rsp http.ResponseWriter, req *http.Request) {
 	task := libs.GetRequest(req, "task")
 	if task != "" {
@@ -61,7 +68,25 @@ func updateSlave(rsp http.ResponseWriter, req *http.Request) {
 	}
 }
 
+/**
+stop task
+ */
 func stopSlave(rsp http.ResponseWriter, req *http.Request) {
 	signal = false
+	srvqps = 0
 	libs.SendResponse(rsp, FixRetData(0, "test stop", ""))
+}
+
+/**
+get client system status
+ */
+func getSysInfo(rsp http.ResponseWriter, req *http.Request) {
+	var index IndexType
+	index.Code = 0
+	index.Msg = "succ"
+	index.Data.Qps = 0
+	index.Data.Mem = 0
+	index.Data.Cpu = 0
+	str, _ := json.Marshal(index)
+	libs.SendResponse(rsp, string(str))
 }
