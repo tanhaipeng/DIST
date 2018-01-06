@@ -9,7 +9,7 @@ install:
   - go get github.com/go-ozzo/ozzo-log
 
 script:
-  - cd agent && sh build.sh
+  - cd agent
 
 notifications:
   email: false
